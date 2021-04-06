@@ -1,18 +1,30 @@
 package telefonbuch;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
+import javafx.collections.FXCollections;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import java.io.*;
 
 public class Main extends Application {
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Telefonbuch");
+//    	Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+
+        BorderPane root = new BorderPane();
+
+        SearchArea searchArea = new SearchArea();
+        root.setTop(searchArea.getPane());
+        root.setCenter(entryArea.getAnchorPane());
+        tB.telefonBook.add(new TelefonEntry("Felix", "UndFabi", "0190 / 666 666"));
+        entryArea.setItems(tB.telefonBook);
+        primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
@@ -26,6 +38,7 @@ public class Main extends Application {
 
     // Globale Static Variable
     private static TelefonBook tB = new TelefonBook();
+    private static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.telefonBook));
 
     //Zum Auslesen
     private static void initialize() {
@@ -42,12 +55,18 @@ public class Main extends Application {
     //Write
     private static void writeTb() {
         try {
-            File tB = new File(TelefonBook.path);
-            if (!tB.exists()) {
-                tB.setReadable(true);
-                tB.setWritable(true);
-                tB.createNewFile();
+            File telefonBookFile = new File(TelefonBook.path);
+            if (!telefonBookFile.exists()) {
+            	telefonBookFile.setReadable(true);
+            	telefonBookFile.setWritable(true);
+            	telefonBookFile.createNewFile();    	
             }
+            tB.telefonBook = entryArea.getItems();
+            try (FileOutputStream fos = new FileOutputStream(TelefonBook.path, false); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
+				oos.writeObject(tB);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
         } catch (Exception e) {
             e.printStackTrace();

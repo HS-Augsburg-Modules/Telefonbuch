@@ -2,17 +2,26 @@ package telefonbuch;
 
 import java.io.Serializable;
 
-public class Entry implements Serializable {
+public class TelefonEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     private String firstName = "";
     private String lastName = "";
     private String street = "";
     private int streetNumber = 0;
+    private String number = "";
     private String co = "";
     private int zipcode = 0;
     private String city = "";
+    
+    
 
-    public String getFirstName() {
+    public TelefonEntry(String firstName, String lastName, String number) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.number = number;
+	}
+
+	public String getFirstName() {
         return firstName;
     }
 
@@ -42,6 +51,14 @@ public class Entry implements Serializable {
 
     public void setStreetNumber(int streetNumber) {
         this.streetNumber = streetNumber;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getCo() {
