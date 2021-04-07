@@ -77,7 +77,8 @@ public class Main extends Application {
             	telefonBookFile.setWritable(true);
             	telefonBookFile.createNewFile();    	
             }
-            getSearchArea().setSearchText("");            
+            getSearchArea().setSearchText("");     
+            getSearchArea().searchFunction();
             tB.setTelefonBook(entryArea.getItems());
             try (FileOutputStream fos = new FileOutputStream(TelefonBook.path, false); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
 				oos.writeObject(tB);

@@ -62,6 +62,7 @@ public class UserInputArea {
 			Main.getEntryArea().updateItems(Main.getEntryArea().getCurrentSelectedEntry(), getEntry());
 		} else {
 			Main.getEntryArea().addItem(getEntry());
+			Main.getTB().getTelefonBook().add(getEntry());
 			// Save
 		}
 		setEntry(new TelefonEntry("", "", ""));

@@ -17,7 +17,7 @@ public class SearchArea {
     }
     
     public void setSearchText(String text) {
-    	searchTextField.setText("");
+    	searchTextField.setText(text);
     }
 
     public SearchArea() {
