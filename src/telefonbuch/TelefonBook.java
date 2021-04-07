@@ -7,10 +7,14 @@ import java.util.stream.Collectors;
 
 public class TelefonBook implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	public static String path = "tb.ser";
+    //CONSTRUCTORS
+    //VARIABLES
 
-	private List<TelefonEntry> telefonBook = new ArrayList<TelefonEntry>();
+    private static final long serialVersionUID = 1L;
+    public static String path = "tb.ser";
+    private List<TelefonEntry> telefonBook = new ArrayList<TelefonEntry>();
+
+    //METHODS
 
 	public List<TelefonEntry> getTelefonBook() {
 		return telefonBook;

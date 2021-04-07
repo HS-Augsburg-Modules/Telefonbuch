@@ -3,6 +3,17 @@ package telefonbuch;
 import java.io.Serializable;
 
 public class TelefonEntry implements Serializable {
+
+    //CONSTRUCTORS
+
+    public TelefonEntry(String firstName, String lastName, String number) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.number = number;
+    }
+
+    //VARIABLES
+
     private static final long serialVersionUID = 1L;
     private String firstName = "";
     private String lastName = "";
@@ -13,18 +24,11 @@ public class TelefonEntry implements Serializable {
     private int zipcode = 0;
     private String city = "";
     
-    
-    
+    //METHODS
 
     @Override
 	public String toString() {
 		return "TelefonEntry [firstName=" + firstName + ", lastName=" + lastName + ", street=" + street + ", streetNumber=" + streetNumber + ", number=" + number + ", co=" + co + ", zipcode=" + zipcode + ", city=" + city + "]";
-	}
-
-	public TelefonEntry(String firstName, String lastName, String number) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.number = number;
 	}
 
 	public String getFirstName() {
