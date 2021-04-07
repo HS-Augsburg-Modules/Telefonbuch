@@ -22,7 +22,7 @@ public class UserInputArea {
     	GridPane.setColumnIndex(last, 1);
     	GridPane.setColumnIndex(number, 2);
     	GridPane.setColumnIndex(save, 3);
-    	
+    	gridPane.setPadding(new Insets(0,10,0,10));
     }
     
     public GridPane getGridPane() {

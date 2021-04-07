@@ -62,12 +62,21 @@ public class EntryArea {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             TelefonEntry data = getTableView().getItems().get(getIndex());
-                            //Hier muss der Delete rein
-                            System.out.println("selectedData: " + data);
+                            Main.getTB().removeEntry(data);
                         });             
-                        btn.setText("mimi");
-                    }                    
-                };
+                        btn.setText("-");
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btn);
+                        }
+                    }
+                };	
                 return cell;
             }
         };

@@ -37,9 +37,16 @@ public class Main extends Application {
 
 
     // Globale Static Variable
-    public static TelefonBook tB = new TelefonBook();
+    private static TelefonBook tB = new TelefonBook();
+    public static TelefonBook getTB() {
+		return tB;
+	}
+    
     private static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.telefonBook));
-
+    public static EntryArea getEntryArea() {
+		return entryArea;
+	}
+    
     //Zum Auslesen
     private static void initialize() {
         try (FileInputStream fis = new FileInputStream(TelefonBook.path);

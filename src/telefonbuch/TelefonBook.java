@@ -10,5 +10,10 @@ public class TelefonBook implements Serializable {
     public static String path = "tb.ser";
     
     List<TelefonEntry> telefonBook = new ArrayList<TelefonEntry>();
+    
+    public void removeEntry(TelefonEntry entry) {
+    	telefonBook.remove(entry);
+    	Main.getEntryArea().setItems(telefonBook);
+    }
 
 }
