@@ -1,5 +1,6 @@
 package telefonbuch;
 
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -9,7 +10,15 @@ public class SearchArea {
 
     private final AnchorPane anchorPane = new AnchorPane();
     private final TextField searchTextField = new TextField();
-    private final Button searchButton = new Button("Suchen");
+    private final Button searchButton = new Button("Search");
+    
+    public String getSearchText() {
+    	return searchTextField.getText();
+    }
+    
+    public void setSearchText(String text) {
+    	searchTextField.setText("");
+    }
 
     public SearchArea() {
         AnchorPane.setLeftAnchor(searchTextField, 10.0);
@@ -21,7 +30,13 @@ public class SearchArea {
         AnchorPane.setRightAnchor(searchButton, 10.0);
         AnchorPane.setBottomAnchor(searchButton, 10.0);
 
+
+		searchButton.setOnAction((ActionEvent event) -> searchFunction());
         anchorPane.getChildren().addAll(searchTextField, searchButton);
+    }
+    
+    public void searchFunction() {
+    	Main.getEntryArea().setItems(Main.getTB().getFilteredTelefonBook());
     }
 
     public Node getPane() {

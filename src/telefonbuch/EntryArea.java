@@ -15,174 +15,154 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
-import javafx.application.Application;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 public class EntryArea {
-    private final AnchorPane anchorPane = new AnchorPane();
-    private final TableView<TelefonEntry> tableView;
-    private final ObservableList<TelefonEntry> telefonBook = FXCollections.observableArrayList();
+	private final AnchorPane anchorPane = new AnchorPane();
+	private final TableView<TelefonEntry> tableView;
+	private final ObservableList<TelefonEntry> telefonBook = FXCollections.observableArrayList();
+	private int currentSelectedEntry = -1;
 
-    public EntryArea(ObservableList<TelefonEntry> telefonEntries) {
-        tableView = new TableView<>();
-        AnchorPane.setLeftAnchor(tableView, 10.0);
-        AnchorPane.setRightAnchor(tableView, 10.0);
-        AnchorPane.setTopAnchor(tableView, 0.0);
-        AnchorPane.setBottomAnchor(tableView, 0.0);
-        anchorPane.getChildren().addAll(tableView);
+	public int getCurrentSelectedEntry() {
+		return currentSelectedEntry;
+	}
 
-        Callback<TableColumn<TelefonEntry, String>, TableCell<TelefonEntry, String>> cellFactory = p -> new EditingCell();
+	public void resetCurrentSelectedEntry() {
+		currentSelectedEntry = -1;
+	}
 
-        TableColumn<TelefonEntry, String> lastNameCol = new TableColumn<>("Last Name");
-        lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        lastNameCol.setCellFactory(cellFactory);
-        lastNameCol.setOnEditCommit(t -> getCurrentRow(t).setLastName(t.getNewValue()));
+	public EntryArea(ObservableList<TelefonEntry> telefonEntries) {
+		tableView = new TableView<>();
+		AnchorPane.setLeftAnchor(tableView, 10.0);
+		AnchorPane.setRightAnchor(tableView, 10.0);
+		AnchorPane.setTopAnchor(tableView, 0.0);
+		AnchorPane.setBottomAnchor(tableView, 0.0);
+		anchorPane.getChildren().addAll(tableView);
 
-        TableColumn<TelefonEntry, String> firstNameCol = new TableColumn<>("First Name");
-        firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        firstNameCol.setCellFactory(cellFactory);
-        firstNameCol.setOnEditCommit(t -> getCurrentRow(t).setFirstName(t.getNewValue()));
+		Callback<TableColumn<TelefonEntry, String>, TableCell<TelefonEntry, String>> cellFactory = p -> new EditingCell();
 
-        TableColumn<TelefonEntry, String> emailCol = new TableColumn<>("Number");
-        emailCol.setCellValueFactory(new PropertyValueFactory<>("number"));
-        emailCol.setCellFactory(cellFactory);
-        emailCol.setOnEditCommit(t -> getCurrentRow(t).setNumber(t.getNewValue()));
+		TableColumn<TelefonEntry, String> lastNameCol = new TableColumn<>("Last Name");
+		lastNameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+		lastNameCol.setCellFactory(cellFactory);
+		lastNameCol.setOnEditStart(t -> setUpdate(getCurrentRowIndex(t)));
+		lastNameCol.setMaxWidth(96);
+		lastNameCol.setPrefWidth(96);
 
+		TableColumn<TelefonEntry, String> firstNameCol = new TableColumn<>("First Name");
+		firstNameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
+		firstNameCol.setCellFactory(cellFactory);
+		firstNameCol.setOnEditStart(t -> setUpdate(getCurrentRowIndex(t)));
+		firstNameCol.setMaxWidth(96);
+		firstNameCol.setPrefWidth(96);
 
-        TableColumn<TelefonEntry, Void> deleteCol = new TableColumn<>(" ");
-        Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>> buttonFactory = new Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>>() {
-            @Override
-            public TableCell<TelefonEntry, Void> call(final TableColumn<TelefonEntry, Void> param) {
-                final TableCell<TelefonEntry, Void> cell = new TableCell<TelefonEntry, Void>() {
-                    private final Button btn = new Button("Action");
-                    {
-                        btn.setOnAction((ActionEvent event) -> {
-                            TelefonEntry data = getTableView().getItems().get(getIndex());
-                            Main.getTB().removeEntry(data);
-                        });             
-                        btn.setText("-");
-                    }
+		TableColumn<TelefonEntry, String> numberCol = new TableColumn<>("Number");
+		numberCol.setCellValueFactory(new PropertyValueFactory<>("number"));
+		numberCol.setCellFactory(cellFactory);
+		numberCol.setOnEditStart(t -> setUpdate(getCurrentRowIndex(t)));
+		numberCol.setMaxWidth(96);
+		numberCol.setPrefWidth(96);
 
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };	
-                return cell;
-            }
-        };
-        deleteCol.setCellFactory(buttonFactory);
-        
-//      DeleteFunktion für eine Row.
-        //Hier muss ein Button für Delete rein
+		TableColumn<TelefonEntry, Void> deleteCol = new TableColumn<>(" ");
+		deleteCol.setMaxWidth(25);
+		deleteCol.setPrefWidth(25);
+		Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>> buttonFactory = new Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>>() {
+			@Override
+			public TableCell<TelefonEntry, Void> call(final TableColumn<TelefonEntry, Void> param) {
+				final TableCell<TelefonEntry, Void> cell = new TableCell<TelefonEntry, Void>() {
+					private final Button btn = new Button("Action");
+					{
+						btn.setOnAction((ActionEvent event) -> Main.getTB().removeEntry(getTableView().getItems().get(getIndex())));
+						btn.setText("-");
+					}
 
-        tableView.getColumns().add(firstNameCol);
-        tableView.getColumns().add(lastNameCol);
-        tableView.getColumns().add(emailCol);
-        tableView.getColumns().add(deleteCol);
-        tableView.setItems(telefonBook);
-        tableView.setEditable(true);
-    }
+					@Override
+					public void updateItem(Void item, boolean empty) {
+						super.updateItem(item, empty);
+						if (empty) {
+							setGraphic(null);
+						} else {
+							setGraphic(btn);
+						}
+					}
+				};
+				return cell;
+			}
+		};
+		deleteCol.setCellFactory(buttonFactory);
 
-    public void addItems(List<TelefonEntry> items) {
-    	telefonBook.addAll(items);    	
-    }
-    
-    public void setItems(List<TelefonEntry> items) {
-    	telefonBook.clear();
-    	telefonBook.addAll(items);    	
-    }
-    
-    public ArrayList<TelefonEntry> getItems() {
-    	return new ArrayList<TelefonEntry>(telefonBook);    	    	
-    }
+		tableView.getColumns().add(firstNameCol);
+		tableView.getColumns().add(lastNameCol);
+		tableView.getColumns().add(numberCol);
+		tableView.getColumns().add(deleteCol);
+		tableView.setItems(telefonBook);
+		tableView.setEditable(true);
+	}
 
-    public AnchorPane getAnchorPane() {
-        return anchorPane;
-    }
-    
-    public ObservableList<TelefonEntry> getSelectedEntries() {
-        return tableView.getSelectionModel().getSelectedItems();
-    }
+	public void addItem(TelefonEntry items) {
+		telefonBook.add(items);
+	}
 
-    private static class EditingCell extends TableCell<TelefonEntry, String> {
+	public void addItems(List<TelefonEntry> items) {
+		telefonBook.addAll(items);
+	}
+	
+	public void updateItems(int index, TelefonEntry items) {
+		telefonBook.set(index, items);
+	}
 
-        private TextField textField;
+	public void setItems(List<TelefonEntry> items) {
+		telefonBook.clear();
+		telefonBook.addAll(items);
+	}
 
-        private EditingCell() {
-        }
+	public ArrayList<TelefonEntry> getItems() {
+		return new ArrayList<TelefonEntry>(telefonBook);
+	}
 
-        @Override
-        public void startEdit() {
-            if (!isEmpty()) {
-                super.startEdit();
-                createTextField();
-                setText(null);
-                setGraphic(textField);
-                textField.selectAll();
-            }
-        }
+	public AnchorPane getAnchorPane() {
+		return anchorPane;
+	}
 
-        @Override
-        public void cancelEdit() {
-            super.cancelEdit();
+	public ObservableList<TelefonEntry> getSelectedEntries() {
+		return tableView.getSelectionModel().getSelectedItems();
+	}
 
-            setText(getItem());
-            setGraphic(null);
-        }
+	private static class EditingCell extends TableCell<TelefonEntry, String> {
 
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
+		private TextField textField;
 
-            if (empty) {
-                setText(null);
-                setGraphic(null);
-            } else {
-                if (isEditing()) {
-                    if (textField != null) {
-                        textField.setText(getString());
-                    }
-                    setText(null);
-                    setGraphic(textField);
-                } else {
-                    setText(getString());
-                    setGraphic(null);
-                }
-            }
-        }
+		@Override
+		public void updateItem(String item, boolean empty) {
+			super.updateItem(item, empty);
 
-        private void createTextField() {
-            textField = new TextField(getString());
-            textField.setMinWidth(this.getWidth() - this.getGraphicTextGap()* 2);
-            textField.focusedProperty().addListener((arg0, arg1, arg2) -> {
-                if (!arg2) {
-                    commitEdit(textField.getText());
-                }
-            });
-        }
+			if (empty) {
+				setText(null);
+				setGraphic(null);
+			} else {
+				if (isEditing()) {
+					if (textField != null) {
+						textField.setText(getString());
+					}
+					setText(null);
+					setGraphic(textField);
+				} else {
+					setText(getString());
+					setGraphic(null);
+				}
+			}
+		}
 
-        private String getString() {
-            return getItem() == null ? "" : getItem();
-        }
-    }
+		private String getString() {
+			return getItem() == null ? "" : getItem();
+		}
+	}
 
-    private static TelefonEntry getCurrentRow(TableColumn.CellEditEvent<TelefonEntry, String> t) {
-        return t.getTableView().getItems().get(t.getTablePosition().getRow());
-    }
-    
-    private static TelefonEntry getCurrentRow(ActionEvent t) {
-    	System.out.println(t.getSource());
-        return null;
-    }
+	private static Integer getCurrentRowIndex(TableColumn.CellEditEvent<TelefonEntry, String> t) {
+		return t.getTablePosition().getRow();
+	}
+
+	public void setUpdate(Integer entry) {
+		currentSelectedEntry = entry;
+		Main.getInputArea().setEntry(tableView.getItems().get(currentSelectedEntry));
+		Main.getInputArea().ChangeButtonText();
+	}
 
 }

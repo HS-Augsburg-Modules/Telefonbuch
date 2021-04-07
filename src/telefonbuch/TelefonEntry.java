@@ -14,8 +14,14 @@ public class TelefonEntry implements Serializable {
     private String city = "";
     
     
+    
 
-    public TelefonEntry(String firstName, String lastName, String number) {
+    @Override
+	public String toString() {
+		return "TelefonEntry [firstName=" + firstName + ", lastName=" + lastName + ", street=" + street + ", streetNumber=" + streetNumber + ", number=" + number + ", co=" + co + ", zipcode=" + zipcode + ", city=" + city + "]";
+	}
+
+	public TelefonEntry(String firstName, String lastName, String number) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.number = number;

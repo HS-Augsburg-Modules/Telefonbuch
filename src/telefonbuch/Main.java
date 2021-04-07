@@ -18,13 +18,11 @@ public class Main extends Application {
 //    	Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         BorderPane root = new BorderPane();
-        UserInputArea inputArea = new UserInputArea();
-        SearchArea searchArea = new SearchArea();
         root.setTop(searchArea.getPane());
         root.setCenter(entryArea.getAnchorPane());
         root.setBottom(inputArea.getGridPane());
-        entryArea.setItems(tB.telefonBook);
-        primaryStage.setTitle("Hello World");
+        entryArea.setItems(tB.getTelefonBook());
+        primaryStage.setTitle("Phone Book");
         primaryStage.setScene(new Scene(root, 335, 275));
         primaryStage.show();
     }
@@ -36,18 +34,29 @@ public class Main extends Application {
     }
 
 
-    // Globale Static Variable
+    // Global Static Variable
+    private static SearchArea searchArea = new SearchArea();
+    
+    public static SearchArea getSearchArea() {
+		return searchArea;
+	}
+    
     private static TelefonBook tB = new TelefonBook();
     public static TelefonBook getTB() {
 		return tB;
 	}
     
-    private static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.telefonBook));
+    private final static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.getTelefonBook()));
     public static EntryArea getEntryArea() {
 		return entryArea;
 	}
     
-    //Zum Auslesen
+    private final static UserInputArea inputArea = new UserInputArea();
+    public static UserInputArea getInputArea() {
+		return inputArea;
+	}
+    
+    // For reading entries
     private static void initialize() {
         try (FileInputStream fis = new FileInputStream(TelefonBook.path);
              ObjectInputStream ois = new ObjectInputStream(fis);) {
@@ -59,7 +68,7 @@ public class Main extends Application {
         Runtime.getRuntime().addShutdownHook(writingHook);
     }
 
-    //Write
+    // Writing entries
     private static void writeTb() {
         try {
             File telefonBookFile = new File(TelefonBook.path);
@@ -68,7 +77,8 @@ public class Main extends Application {
             	telefonBookFile.setWritable(true);
             	telefonBookFile.createNewFile();    	
             }
-            tB.telefonBook = entryArea.getItems();
+            getSearchArea().setSearchText("");            
+            tB.setTelefonBook(entryArea.getItems());
             try (FileOutputStream fos = new FileOutputStream(TelefonBook.path, false); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
 				oos.writeObject(tB);
 			} catch (Exception e) {
