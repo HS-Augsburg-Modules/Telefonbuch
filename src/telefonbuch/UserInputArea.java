@@ -1,38 +1,32 @@
 package telefonbuch;
 
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
 
 public class UserInputArea {
-    private final FlowPane flowPane = new FlowPane();
+    private final GridPane gridPane = new GridPane();
 
     public UserInputArea() {
-
+    	gridPane.setMaxWidth(335);
+    	gridPane.setMaxHeight(15);
     	TextField first = new TextField();    	
     	TextField last = new TextField();
     	TextField number = new TextField();
-    	flowPane.getChildren().addAll(first, last, number);
+    	first.setPromptText("Vorname");
+    	last.setPromptText("Nachname");
+    	number.setPromptText("Nummer");
+    	Button save = new Button("Save");
+    	gridPane.getChildren().addAll(first, last, number, save);
+    	GridPane.setColumnIndex(last, 1);
+    	GridPane.setColumnIndex(number, 2);
+    	GridPane.setColumnIndex(save, 3);
     	
-    	
-//    	<FlowPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
-//    	   <children>
-//    	      <TextField />
-//    	      <TextField />
-//    	      <TextField />
-//    	      <Button mnemonicParsing="false" text="Button" />
-//    	   </children>
-//    	</FlowPane>
-    	
-//        AnchorPane.setLeftAnchor(tableView, 10.0);
-//        AnchorPane.setRightAnchor(tableView, 10.0);
-//        AnchorPane.setTopAnchor(tableView, 0.0);
-//        AnchorPane.setBottomAnchor(tableView, 0.0);
-//        anchorPane.getChildren().addAll(tableView);
-
     }
     
-    public FlowPane getFlowPane() {
-		return flowPane;
+    public GridPane getGridPane() {
+		return gridPane;
 	}
 
 }

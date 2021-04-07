@@ -53,7 +53,7 @@ public class EntryArea {
         emailCol.setOnEditCommit(t -> getCurrentRow(t).setNumber(t.getNewValue()));
 
 
-        TableColumn<TelefonEntry, Void> deleteCol = new TableColumn<>("");
+        TableColumn<TelefonEntry, Void> deleteCol = new TableColumn<>(" ");
         Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>> buttonFactory = new Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>>() {
             @Override
             public TableCell<TelefonEntry, Void> call(final TableColumn<TelefonEntry, Void> param) {
@@ -64,7 +64,8 @@ public class EntryArea {
                             TelefonEntry data = getTableView().getItems().get(getIndex());
                             //Hier muss der Delete rein
                             System.out.println("selectedData: " + data);
-                        });                        
+                        });             
+                        btn.setText("mimi");
                     }                    
                 };
                 return cell;

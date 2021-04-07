@@ -22,10 +22,10 @@ public class Main extends Application {
         SearchArea searchArea = new SearchArea();
         root.setTop(searchArea.getPane());
         root.setCenter(entryArea.getAnchorPane());
-        root.setBottom(inputArea.getFlowPane());
+        root.setBottom(inputArea.getGridPane());
         entryArea.setItems(tB.telefonBook);
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 330, 275));
+        primaryStage.setScene(new Scene(root, 335, 275));
         primaryStage.show();
     }
 
