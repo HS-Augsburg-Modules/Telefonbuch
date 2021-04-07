@@ -7,7 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
 public class SearchArea {
-
+    //CONSTRUCTORS
+    //VARIABLES
+    //METHODS
     private final AnchorPane anchorPane = new AnchorPane();
     private final TextField searchTextField = new TextField();
     private final Button searchButton = new Button("Search");

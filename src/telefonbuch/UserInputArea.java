@@ -7,6 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class UserInputArea {
+	//CONSTRUCTORS
+	//VARIABLES
+	//METHODS
 	private final GridPane gridPane = new GridPane();
 
 	TextField first = new TextField();

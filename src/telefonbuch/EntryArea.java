@@ -16,18 +16,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
 
 public class EntryArea {
-	private final AnchorPane anchorPane = new AnchorPane();
-	private final TableView<TelefonEntry> tableView;
-	private final ObservableList<TelefonEntry> telefonBook = FXCollections.observableArrayList();
-	private int currentSelectedEntry = -1;
 
-	public int getCurrentSelectedEntry() {
-		return currentSelectedEntry;
-	}
-
-	public void resetCurrentSelectedEntry() {
-		currentSelectedEntry = -1;
-	}
+	//CONSTRUCTORS
 
 	public EntryArea(ObservableList<TelefonEntry> telefonEntries) {
 		tableView = new TableView<>();
@@ -96,6 +86,25 @@ public class EntryArea {
 		tableView.setEditable(true);
 	}
 
+	//VARIABLES
+
+	private final AnchorPane anchorPane = new AnchorPane();
+	private final TableView<TelefonEntry> tableView;
+	private final ObservableList<TelefonEntry> telefonBook = FXCollections.observableArrayList();
+	private int currentSelectedEntry = -1;
+
+	//METHODS
+
+	public int getCurrentSelectedEntry() {
+		return currentSelectedEntry;
+	}
+
+	public void resetCurrentSelectedEntry() {
+		currentSelectedEntry = -1;
+	}
+
+
+
 	public void addItem(TelefonEntry items) {
 		telefonBook.add(items);
 	}
@@ -125,6 +134,21 @@ public class EntryArea {
 		return tableView.getSelectionModel().getSelectedItems();
 	}
 
+	private static Integer getCurrentRowIndex(TableColumn.CellEditEvent<TelefonEntry, String> t) {
+		return t.getTablePosition().getRow();
+	}
+
+	public void setUpdate(Integer entry) {
+		currentSelectedEntry = entry;
+		Main.getInputArea().setEntry(tableView.getItems().get(currentSelectedEntry));
+		Main.getInputArea().ChangeButtonText();
+	}
+
+	//SUBCLASSES
+
+	/**
+	 *
+	 */
 	private static class EditingCell extends TableCell<TelefonEntry, String> {
 
 		private TextField textField;
@@ -153,16 +177,6 @@ public class EntryArea {
 		private String getString() {
 			return getItem() == null ? "" : getItem();
 		}
-	}
-
-	private static Integer getCurrentRowIndex(TableColumn.CellEditEvent<TelefonEntry, String> t) {
-		return t.getTablePosition().getRow();
-	}
-
-	public void setUpdate(Integer entry) {
-		currentSelectedEntry = entry;
-		Main.getInputArea().setEntry(tableView.getItems().get(currentSelectedEntry));
-		Main.getInputArea().ChangeButtonText();
 	}
 
 }

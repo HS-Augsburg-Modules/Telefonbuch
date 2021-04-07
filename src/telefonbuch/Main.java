@@ -13,6 +13,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    //CONSTRUCTORS
+
+    //VARIABLES
+
+    // Global Static Variable
+    private static SearchArea searchArea = new SearchArea();
+    private static TelefonBook tB = new TelefonBook();
+    private final static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.getTelefonBook()));
+    private final static UserInputArea inputArea = new UserInputArea();
+
+    //METHODS
     @Override
     public void start(Stage primaryStage) throws Exception {
 //    	Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -27,31 +38,24 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-
     public static void main(String[] args) {
         initialize();
         launch(args);
     }
-
-
-    // Global Static Variable
-    private static SearchArea searchArea = new SearchArea();
     
     public static SearchArea getSearchArea() {
-		return searchArea;
-	}
-    
-    private static TelefonBook tB = new TelefonBook();
+        return searchArea;
+    }
+
     public static TelefonBook getTB() {
 		return tB;
 	}
-    
-    private final static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.getTelefonBook()));
+
     public static EntryArea getEntryArea() {
 		return entryArea;
 	}
-    
-    private final static UserInputArea inputArea = new UserInputArea();
+
+
     public static UserInputArea getInputArea() {
 		return inputArea;
 	}
