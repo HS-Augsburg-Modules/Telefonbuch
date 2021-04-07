@@ -5,6 +5,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -12,6 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+
+import javafx.application.Application;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class EntryArea {
     private final AnchorPane anchorPane = new AnchorPane();
@@ -43,9 +52,33 @@ public class EntryArea {
         emailCol.setCellFactory(cellFactory);
         emailCol.setOnEditCommit(t -> getCurrentRow(t).setNumber(t.getNewValue()));
 
+
+        TableColumn<TelefonEntry, Void> deleteCol = new TableColumn<>("");
+        Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>> buttonFactory = new Callback<TableColumn<TelefonEntry, Void>, TableCell<TelefonEntry, Void>>() {
+            @Override
+            public TableCell<TelefonEntry, Void> call(final TableColumn<TelefonEntry, Void> param) {
+                final TableCell<TelefonEntry, Void> cell = new TableCell<TelefonEntry, Void>() {
+                    private final Button btn = new Button("Action");
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            TelefonEntry data = getTableView().getItems().get(getIndex());
+                            //Hier muss der Delete rein
+                            System.out.println("selectedData: " + data);
+                        });                        
+                    }                    
+                };
+                return cell;
+            }
+        };
+        deleteCol.setCellFactory(buttonFactory);
+        
+//      DeleteFunktion für eine Row.
+        //Hier muss ein Button für Delete rein
+
         tableView.getColumns().add(firstNameCol);
         tableView.getColumns().add(lastNameCol);
         tableView.getColumns().add(emailCol);
+        tableView.getColumns().add(deleteCol);
         tableView.setItems(telefonBook);
         tableView.setEditable(true);
     }
@@ -60,14 +93,13 @@ public class EntryArea {
     }
     
     public ArrayList<TelefonEntry> getItems() {
-    	return new ArrayList<TelefonEntry>(telefonBook);
-    	    	
+    	return new ArrayList<TelefonEntry>(telefonBook);    	    	
     }
 
     public AnchorPane getAnchorPane() {
         return anchorPane;
     }
-
+    
     public ObservableList<TelefonEntry> getSelectedEntries() {
         return tableView.getSelectionModel().getSelectedItems();
     }
@@ -136,6 +168,11 @@ public class EntryArea {
 
     private static TelefonEntry getCurrentRow(TableColumn.CellEditEvent<TelefonEntry, String> t) {
         return t.getTableView().getItems().get(t.getTablePosition().getRow());
+    }
+    
+    private static TelefonEntry getCurrentRow(ActionEvent t) {
+    	System.out.println(t.getSource());
+        return null;
     }
 
 }

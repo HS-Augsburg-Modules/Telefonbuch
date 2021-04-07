@@ -18,14 +18,14 @@ public class Main extends Application {
 //    	Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
 
         BorderPane root = new BorderPane();
-
+        UserInputArea inputArea = new UserInputArea();
         SearchArea searchArea = new SearchArea();
         root.setTop(searchArea.getPane());
         root.setCenter(entryArea.getAnchorPane());
-        tB.telefonBook.add(new TelefonEntry("Felix", "UndFabi", "0190 / 666 666"));
+        root.setBottom(inputArea.getFlowPane());
         entryArea.setItems(tB.telefonBook);
         primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 330, 275));
         primaryStage.show();
     }
 
@@ -37,7 +37,7 @@ public class Main extends Application {
 
 
     // Globale Static Variable
-    private static TelefonBook tB = new TelefonBook();
+    public static TelefonBook tB = new TelefonBook();
     private static EntryArea entryArea = new EntryArea(FXCollections.observableArrayList(tB.telefonBook));
 
     //Zum Auslesen
