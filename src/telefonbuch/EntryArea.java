@@ -19,6 +19,14 @@ public class EntryArea {
 
 	//CONSTRUCTORS
 
+	/**
+	 * Constructor that builds a GUI for the given phone book
+	 * Creating a proper window with an appropriate size
+	 * Possibility to edit a cell and its content
+	 *   Possibility to add a entry into to phone book by filling in the new entries appropriate cells.
+	 *  Every cell gets updated after the content is added (using the row index)
+	 * @param telefonEntries
+	 */
 	public EntryArea(ObservableList<TelefonEntry> telefonEntries) {
 		tableView = new TableView<>();
 		AnchorPane.setLeftAnchor(tableView, 10.0);
@@ -104,11 +112,18 @@ public class EntryArea {
 	}
 
 
-
-	public void addItem(TelefonEntry items) {
-		telefonBook.add(items);
+	/**
+	 * Add one Entry to the main phone book
+	 * @param item
+	 */
+	public void addItem(TelefonEntry item) {
+		telefonBook.add(item);
 	}
 
+	/**
+	 * Add list of entries to main phone book.
+	 * @param items
+	 */
 	public void addItems(List<TelefonEntry> items) {
 		telefonBook.addAll(items);
 	}
@@ -147,7 +162,7 @@ public class EntryArea {
 	//SUBCLASSES
 
 	/**
-	 *
+	 * Class for editing cells of the entries of the phone book.
 	 */
 	private static class EditingCell extends TableCell<TelefonEntry, String> {
 

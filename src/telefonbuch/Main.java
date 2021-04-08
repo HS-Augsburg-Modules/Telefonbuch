@@ -59,8 +59,10 @@ public class Main extends Application {
     public static UserInputArea getInputArea() {
 		return inputArea;
 	}
-    
-    // For reading entries
+
+    /**
+     * Reading in serialized Objects and initializing the phone book
+     */
     private static void initialize() {
         try (FileInputStream fis = new FileInputStream(TelefonBook.path);
              ObjectInputStream ois = new ObjectInputStream(fis);) {
@@ -72,7 +74,9 @@ public class Main extends Application {
         Runtime.getRuntime().addShutdownHook(writingHook);
     }
 
-    // Writing entries
+    /**
+     * Save all Entry-Objects to the serialized phone book file.
+     */
     private static void writeTb() {
         try {
             File telefonBookFile = new File(TelefonBook.path);

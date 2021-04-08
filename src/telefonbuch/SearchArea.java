@@ -36,7 +36,10 @@ public class SearchArea {
 		searchButton.setOnAction((ActionEvent event) -> searchFunction());
         anchorPane.getChildren().addAll(searchTextField, searchButton);
     }
-    
+
+    /**
+     * Function for searching through the entries of the phone book (filtered)
+     */
     public void searchFunction() {
     	Main.getEntryArea().setItems(Main.getTB().getFilteredTelefonBook());
     }

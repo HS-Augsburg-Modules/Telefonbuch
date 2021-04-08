@@ -8,30 +8,6 @@ import javafx.scene.layout.GridPane;
 
 public class UserInputArea {
 	//CONSTRUCTORS
-	//VARIABLES
-	//METHODS
-	private final GridPane gridPane = new GridPane();
-
-	TextField first = new TextField();
-	TextField last = new TextField();
-	TextField number = new TextField();
-	Button save = new Button("+");
-	private TelefonEntry entry = new TelefonEntry("", "", "");
-
-	public TelefonEntry getEntry() {
-		return entry;
-	}
-
-	public void setEntry(TelefonEntry entry) {
-		this.entry = entry;
-		updateBecauseBindSucks();
-	}
-
-	public void updateBecauseBindSucks() {
-		first.setText(entry.getFirstName());
-		last.setText(entry.getLastName());
-		number.setText(entry.getNumber());
-	}
 
 	public UserInputArea() {
 		gridPane.setMaxWidth(335);
@@ -39,7 +15,7 @@ public class UserInputArea {
 		first.setPromptText("First Name");
 		last.setPromptText("Last Name");
 		number.setPromptText("Number");
-		
+
 		save.setOnAction((ActionEvent event) -> updateOrSave());
 		gridPane.getChildren().addAll(first, last, number, save);
 		GridPane.setColumnIndex(last, 1);
@@ -56,6 +32,38 @@ public class UserInputArea {
 		gridPane.setPadding(new Insets(0, 10, 0, 10));
 	}
 
+	//VARIABLES
+
+	TextField first = new TextField();
+	TextField last = new TextField();
+	TextField number = new TextField();
+	Button save = new Button("+");
+	private TelefonEntry entry = new TelefonEntry("", "", "");
+	private final GridPane gridPane = new GridPane();
+
+	//METHODS
+
+	public TelefonEntry getEntry() {
+		return entry;
+	}
+
+	public void setEntry(TelefonEntry entry) {
+		this.entry = entry;
+		updateBecauseBindSucks();
+	}
+
+	/**
+	 * Using the update method instead of String binding.
+	 */
+	public void updateBecauseBindSucks() {
+		first.setText(entry.getFirstName());
+		last.setText(entry.getLastName());
+		number.setText(entry.getNumber());
+	}
+
+	/**
+	 * Differentiates between editing a selected entry or creating a new one
+	 */
 	private void updateOrSave() {
 		entry.setFirstName(first.getText());
 		entry.setLastName(last.getText());
