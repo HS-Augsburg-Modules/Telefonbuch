@@ -34,7 +34,7 @@ public class Main extends Application {
         root.setBottom(inputArea.getGridPane());
         entryArea.setItems(tB.getTelefonBook());
         primaryStage.setTitle("Phone Book");
-        primaryStage.setScene(new Scene(root, 335, 275));
+        primaryStage.setScene(new Scene(root, 455, 275));
         primaryStage.show();
     }
 
@@ -64,20 +64,24 @@ public class Main extends Application {
      * Reading in serialized Objects and initializing the phone book
      */
     private static void initialize() {
-        try (FileInputStream fis = new FileInputStream(TelefonBook.path);
-             ObjectInputStream ois = new ObjectInputStream(fis);) {
-            tB = (TelefonBook) ois.readObject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    	loadTb();
         Thread writingHook = new Thread(() -> writeTb());
         Runtime.getRuntime().addShutdownHook(writingHook);
     }
 
+    public static void loadTb() {
+    	try (FileInputStream fis = new FileInputStream(TelefonBook.path);
+                ObjectInputStream ois = new ObjectInputStream(fis);) {
+               tB = (TelefonBook) ois.readObject();
+           } catch (Exception e) {
+               e.printStackTrace();
+           }
+    }
+    
     /**
      * Save all Entry-Objects to the serialized phone book file.
      */
-    private static void writeTb() {
+    public static void writeTb() {
         try {
             File telefonBookFile = new File(TelefonBook.path);
             if (!telefonBookFile.exists()) {
