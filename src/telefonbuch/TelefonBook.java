@@ -1,28 +1,27 @@
 package telefonbuch;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TelefonBook {
 
-    //CONSTRUCTORS
+	//CONSTRUCTORS
 
-	/*public TelefonBook() {
-	}
-	public TelefonBook(List<TelefonEntry> telefonBook) {
-		this.telefonBook = telefonBook;
-	}*/
+	private PhoneBookContainer controller;
 
 
 	//VARIABLES
+	private List<TelefonEntry> telefonBook = new ArrayList<TelefonEntry>();
 
-    private static final long serialVersionUID = 1L;
-    public static String path = "tb.ser";
-    private List<TelefonEntry> telefonBook = new ArrayList<TelefonEntry>();
+	public TelefonBook(PhoneBookContainer controller) {
+		this.controller = controller;
+	}
+	//METHODS
 
-    //METHODS
+	public TelefonBook getTB() {
+		return this;
+	}
 
 	public List<TelefonEntry> getTelefonBook() {
 		return telefonBook;
@@ -36,9 +35,9 @@ public class TelefonBook {
 	 * Method to return filtered phone book when searching for a specific entry. (Case Sensitive)
 	 * @return
 	 */
-	public List<TelefonEntry> getFilteredTelefonBook() {		
-		if (!Main.getSearchArea().getSearchText().trim().isEmpty()) {
-			return getTelefonBook().stream().filter(entry -> entry.getFirstName().contains(Main.getSearchArea().getSearchText()) || entry.getLastName().contains(Main.getSearchArea().getSearchText()) || entry.getNumber().contains(Main.getSearchArea().getSearchText())).collect(Collectors.toList());			
+	public List<TelefonEntry> getFilteredTelefonBook() {
+		if (!controller.getSearchArea().getSearchText().trim().isEmpty()) {
+			return getTelefonBook().stream().filter(entry -> entry.getFirstName().contains(controller.getSearchArea().getSearchText()) || entry.getLastName().contains(controller.getSearchArea().getSearchText()) || entry.getNumber().contains(controller.getSearchArea().getSearchText())).collect(Collectors.toList());
 		}
 		return getTelefonBook();
 	}
@@ -49,7 +48,7 @@ public class TelefonBook {
 	 */
 	public void removeEntry(TelefonEntry entry) {
 		telefonBook.remove(entry);
-		Main.getEntryArea().setItems(getFilteredTelefonBook());
+		controller.getEntryArea().setItems(getFilteredTelefonBook());
 	}
 
 }

@@ -15,16 +15,19 @@ public class SearchArea {
     private final Button searchButton = new Button("Search");
     private final Button loadButton = new Button("Load");
     private final Button saveButton = new Button("Save");
-    
+    private PhoneBookContainer controller;
+
     public String getSearchText() {
-    	return searchTextField.getText();
-    }
-    
-    public void setSearchText(String text) {
-    	searchTextField.setText(text);
+        return searchTextField.getText();
     }
 
-    public SearchArea() {
+    public void setSearchText(String text) {
+        searchTextField.setText(text);
+    }
+
+    public SearchArea(PhoneBookContainer controller) {
+        this.controller = controller;
+
         AnchorPane.setLeftAnchor(searchTextField, 10.0);
         AnchorPane.setTopAnchor(searchTextField, 10.0);
         AnchorPane.setRightAnchor(searchTextField, 190.0);
@@ -53,21 +56,21 @@ public class SearchArea {
      * Function for searching through the entries of the phone book (filtered)
      */
     public void searchFunction() {
-    	Main.getEntryArea().setItems(Main.getTB().getFilteredTelefonBook());
+        controller.getEntryArea().setItems(controller.getTB().getFilteredTelefonBook());
     }
     
     /**
      * Function for searching through the entries of the phone book (filtered)
      */
     public void loadFunction() {
-    	Main.loadTb();
+        controller.loadTb();
     }
     
     /**
      * Function for searching through the entries of the phone book (filtered)
      */
     public void saveFunction() {
-    	Main.writeTb();
+        controller.writeTb();
     }
 
     public Node getPane() {

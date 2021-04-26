@@ -9,7 +9,12 @@ import javafx.scene.layout.GridPane;
 public class UserInputArea {
 	//CONSTRUCTORS
 
-	public UserInputArea() {
+	private PhoneBookContainer controller;
+
+	//VARIABLES
+
+	public UserInputArea(PhoneBookContainer controller) {
+		this.controller = controller;
 		gridPane.setMaxWidth(335);
 		gridPane.setMaxHeight(15);
 		first.setPromptText("First Name");
@@ -31,9 +36,6 @@ public class UserInputArea {
 		save.setPrefWidth(25);
 		gridPane.setPadding(new Insets(0, 10, 0, 10));
 	}
-
-	//VARIABLES
-
 	TextField first = new TextField();
 	TextField last = new TextField();
 	TextField number = new TextField();
@@ -68,24 +70,28 @@ public class UserInputArea {
 		entry.setFirstName(first.getText());
 		entry.setLastName(last.getText());
 		entry.setNumber(number.getText());
-		if (Main.getEntryArea().getCurrentSelectedEntry() != -1) {
+		if (controller.getEntryArea().getCurrentSelectedEntry() != -1) {
 			// Update
-			Main.getEntryArea().updateItems(Main.getEntryArea().getCurrentSelectedEntry(), getEntry());
+			controller.getEntryArea().updateItems(controller.getEntryArea().getCurrentSelectedEntry(), getEntry());
 		} else {
-			Main.getEntryArea().addItem(getEntry());
-			Main.getTB().getTelefonBook().add(getEntry());
+			controller.getEntryArea().addItem(getEntry());
+			controller.getTB().getTelefonBook().add(getEntry());
 			// Save
 		}
 		setEntry(new TelefonEntry("", "", ""));
-		Main.getEntryArea().resetCurrentSelectedEntry();
+		controller.getEntryArea().resetCurrentSelectedEntry();
 		save.setText("+");
 
+	}
+
+	public UserInputArea getInputArea() {
+		return this;
 	}
 
 	public GridPane getGridPane() {
 		return gridPane;
 	}
-	
+
 	public void ChangeButtonText() {
 		save.setText("U");
 	}

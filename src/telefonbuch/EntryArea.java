@@ -1,33 +1,34 @@
 package telefonbuch;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Callback;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntryArea {
 
 	//CONSTRUCTORS
 
+	//VARIABLES
+	private PhoneBookContainer controller;
+
 	/**
 	 * Constructor that builds a GUI for the given phone book
 	 * Creating a proper window with an appropriate size
 	 * Possibility to edit a cell and its content
-	 *   Possibility to add a entry into to phone book by filling in the new entries appropriate cells.
-	 *  Every cell gets updated after the content is added (using the row index)
+	 * Possibility to add a entry into to phone book by filling in the new entries appropriate cells.
+	 * Every cell gets updated after the content is added (using the row index)
+	 *
 	 * @param telefonEntries
 	 */
-	public EntryArea(ObservableList<TelefonEntry> telefonEntries) {
+	public EntryArea(ObservableList<TelefonEntry> telefonEntries, PhoneBookContainer controller) {
+		this.controller = controller;
 		tableView = new TableView<>();
 		AnchorPane.setLeftAnchor(tableView, 10.0);
 		AnchorPane.setRightAnchor(tableView, 10.0);
@@ -66,8 +67,9 @@ public class EntryArea {
 			public TableCell<TelefonEntry, Void> call(final TableColumn<TelefonEntry, Void> param) {
 				final TableCell<TelefonEntry, Void> cell = new TableCell<TelefonEntry, Void>() {
 					private final Button btn = new Button("Action");
+
 					{
-						btn.setOnAction((ActionEvent event) -> Main.getTB().removeEntry(getTableView().getItems().get(getIndex())));
+						btn.setOnAction((ActionEvent event) -> controller.getTB().removeEntry(getTableView().getItems().get(getIndex())));
 						btn.setText("-");
 					}
 
@@ -93,9 +95,6 @@ public class EntryArea {
 		tableView.setItems(telefonBook);
 		tableView.setEditable(true);
 	}
-
-	//VARIABLES
-
 	private final AnchorPane anchorPane = new AnchorPane();
 	private final TableView<TelefonEntry> tableView;
 	private final ObservableList<TelefonEntry> telefonBook = FXCollections.observableArrayList();
@@ -155,8 +154,8 @@ public class EntryArea {
 
 	public void setUpdate(Integer entry) {
 		currentSelectedEntry = entry;
-		Main.getInputArea().setEntry(tableView.getItems().get(currentSelectedEntry));
-		Main.getInputArea().ChangeButtonText();
+		controller.getInputArea().setEntry(tableView.getItems().get(currentSelectedEntry));
+		controller.getInputArea().ChangeButtonText();
 	}
 
 	//SUBCLASSES
