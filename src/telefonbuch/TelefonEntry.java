@@ -2,7 +2,7 @@ package telefonbuch;
 
 import java.io.Serializable;
 
-public class TelefonEntry implements Serializable {
+public class TelefonEntry {
 
     //CONSTRUCTORS
 
@@ -17,18 +17,13 @@ public class TelefonEntry implements Serializable {
     private static final long serialVersionUID = 1L;
     private String firstName = "";
     private String lastName = "";
-    private String street = "";
-    private int streetNumber = 0;
     private String number = "";
-    private String co = "";
-    private int zipcode = 0;
-    private String city = "";
     
     //METHODS
 
     @Override
 	public String toString() {
-		return "TelefonEntry [firstName=" + firstName + ", lastName=" + lastName + ", street=" + street + ", streetNumber=" + streetNumber + ", number=" + number + ", co=" + co + ", zipcode=" + zipcode + ", city=" + city + "]";
+		return "TelefonEntry [firstName=" + firstName + ", lastName=" + lastName + ",  number=" + number + "]";
 	}
 
 	public String getFirstName() {
@@ -47,51 +42,11 @@ public class TelefonEntry implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public int getStreetNumber() {
-        return streetNumber;
-    }
-
-    public void setStreetNumber(int streetNumber) {
-        this.streetNumber = streetNumber;
-    }
-
     public String getNumber() {
         return number;
     }
 
     public void setNumber(String number) {
         this.number = number;
-    }
-
-    public String getCo() {
-        return co;
-    }
-
-    public void setCo(String co) {
-        this.co = co;
-    }
-
-    public int getZipcode() {
-        return zipcode;
-    }
-
-    public void setZipcode(int zipcode) {
-        this.zipcode = zipcode;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 }

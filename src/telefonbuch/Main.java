@@ -16,7 +16,7 @@ public class Main extends Application {
     //CONSTRUCTORS
 
     //VARIABLES
-
+    private static File path = new File("data.json");
     // Global Static Variable
     private static SearchArea searchArea = new SearchArea();
     private static TelefonBook tB = new TelefonBook();
@@ -42,42 +42,42 @@ public class Main extends Application {
         initialize();
         launch(args);
     }
-    
+
     public static SearchArea getSearchArea() {
         return searchArea;
     }
 
     public static TelefonBook getTB() {
-		return tB;
-	}
+        return tB;
+    }
 
     public static EntryArea getEntryArea() {
-		return entryArea;
-	}
+        return entryArea;
+    }
 
 
     public static UserInputArea getInputArea() {
-		return inputArea;
-	}
+        return inputArea;
+    }
 
     /**
      * Reading in serialized Objects and initializing the phone book
      */
     private static void initialize() {
-    	loadTb();
+        loadTb();
         Thread writingHook = new Thread(() -> writeTb());
         Runtime.getRuntime().addShutdownHook(writingHook);
     }
 
     public static void loadTb() {
-    	try (FileInputStream fis = new FileInputStream(TelefonBook.path);
-                ObjectInputStream ois = new ObjectInputStream(fis);) {
-               tB = (TelefonBook) ois.readObject();
-           } catch (Exception e) {
-               e.printStackTrace();
-           }
+        try (FileInputStream fis = new FileInputStream(path);
+             ObjectInputStream ois = new ObjectInputStream(fis);) {
+            tB = (TelefonBook) ois.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     /**
      * Save all Entry-Objects to the serialized phone book file.
      */
@@ -85,18 +85,18 @@ public class Main extends Application {
         try {
             File telefonBookFile = new File(TelefonBook.path);
             if (!telefonBookFile.exists()) {
-            	telefonBookFile.setReadable(true);
-            	telefonBookFile.setWritable(true);
-            	telefonBookFile.createNewFile();    	
+                telefonBookFile.setReadable(true);
+                telefonBookFile.setWritable(true);
+                telefonBookFile.createNewFile();
             }
-            getSearchArea().setSearchText("");     
+            getSearchArea().setSearchText("");
             getSearchArea().searchFunction();
             tB.setTelefonBook(entryArea.getItems());
             try (FileOutputStream fos = new FileOutputStream(TelefonBook.path, false); ObjectOutputStream oos = new ObjectOutputStream(fos);) {
-				oos.writeObject(tB);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+                oos.writeObject(tB);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

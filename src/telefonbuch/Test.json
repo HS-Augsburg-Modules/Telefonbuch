@@ -1,0 +1,34 @@
+{
+  "telefonBook": [
+    {
+      "firstName": "Fabian",
+      "lastName": "Hammerschmidt",
+      "street": "",
+      "streetNumber": 0,
+      "number": "01234567",
+      "co": "",
+      "zipcode": 0,
+      "city": ""
+    },
+    {
+      "firstName": "Max",
+      "lastName": "Mustermann",
+      "street": "",
+      "streetNumber": 0,
+      "number": "93475329",
+      "co": "",
+      "zipcode": 0,
+      "city": ""
+    },
+    {
+      "firstName": "Linda",
+      "lastName": "Fischer",
+      "street": "",
+      "streetNumber": 0,
+      "number": "1234890",
+      "co": "",
+      "zipcode": 0,
+      "city": ""
+    }
+  ]
+}

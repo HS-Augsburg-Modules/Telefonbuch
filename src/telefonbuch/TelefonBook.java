@@ -5,10 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TelefonBook implements Serializable {
+public class TelefonBook {
 
     //CONSTRUCTORS
-    //VARIABLES
+
+	/*public TelefonBook() {
+	}
+	public TelefonBook(List<TelefonEntry> telefonBook) {
+		this.telefonBook = telefonBook;
+	}*/
+
+
+	//VARIABLES
 
     private static final long serialVersionUID = 1L;
     public static String path = "tb.ser";
